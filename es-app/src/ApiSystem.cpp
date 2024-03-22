@@ -17,6 +17,7 @@
 #include "Paths.h"
 #include "utils/VectorEx.h"
 #include "LocaleES.h"
+#include "Scripting.h"
 
 #include <stdlib.h>
 #include <sstream>
@@ -2073,6 +2074,7 @@ bool ApiSystem::enableService(std::string name, bool enable)
 	bool res = executeScript("batocera-services " + std::string(enable ? "enable" : "disable") + " " + serviceName);
 	if (res)
 		res = executeScript("batocera-services " + std::string(enable ? "start" : "stop") + " " + serviceName);
-	
+
+	Scripting::fireEvent("services", serviceName, std::string(enable ? "enable" : "disable"));
 	return res;
 }
